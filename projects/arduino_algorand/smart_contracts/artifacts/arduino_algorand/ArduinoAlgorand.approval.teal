@@ -1,0 +1,114 @@
+#pragma version 10
+
+smart_contracts.arduino_algorand.contract.ArduinoAlgorand.approval_program:
+    txn ApplicationID
+    bnz main_entrypoint@2
+    callsub __init__
+
+main_entrypoint@2:
+    // smart_contracts/arduino_algorand/contract.py:4
+    // class ArduinoAlgorand(ARC4Contract):
+    txn NumAppArgs
+    bz main_bare_routing@8
+    method "set(string)string"
+    method "read_total()string"
+    txna ApplicationArgs 0
+    match main_set_route@4 main_read_total_route@5
+    err // reject transaction
+
+main_set_route@4:
+    // smart_contracts/arduino_algorand/contract.py:8
+    // @arc4.abimethod()
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/arduino_algorand/contract.py:4
+    // class ArduinoAlgorand(ARC4Contract):
+    txna ApplicationArgs 1
+    // smart_contracts/arduino_algorand/contract.py:8
+    // @arc4.abimethod()
+    callsub set
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_read_total_route@5:
+    // smart_contracts/arduino_algorand/contract.py:13
+    // @arc4.abimethod()
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    callsub read_total
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_bare_routing@8:
+    // smart_contracts/arduino_algorand/contract.py:4
+    // class ArduinoAlgorand(ARC4Contract):
+    txn OnCompletion
+    !
+    assert // reject transaction
+    txn ApplicationID
+    !
+    assert // is creating
+    int 1
+    return
+
+
+// smart_contracts.arduino_algorand.contract.ArduinoAlgorand.set(state: bytes) -> bytes:
+set:
+    // smart_contracts/arduino_algorand/contract.py:8-9
+    // @arc4.abimethod()
+    // def set(self, state: arc4.String) -> arc4.String:
+    proto 1 1
+    // smart_contracts/arduino_algorand/contract.py:10
+    // self.total = state
+    byte "total"
+    frame_dig -1
+    app_global_put
+    // smart_contracts/arduino_algorand/contract.py:11
+    // return self.total
+    int 0
+    byte "total"
+    app_global_get_ex
+    assert // check total exists
+    retsub
+
+
+// smart_contracts.arduino_algorand.contract.ArduinoAlgorand.read_total() -> bytes:
+read_total:
+    // smart_contracts/arduino_algorand/contract.py:13-14
+    // @arc4.abimethod()
+    // def read_total(self) ->arc4.String:
+    proto 0 1
+    // smart_contracts/arduino_algorand/contract.py:15
+    // return self.total
+    int 0
+    byte "total"
+    app_global_get_ex
+    assert // check total exists
+    retsub
+
+
+// smart_contracts.arduino_algorand.contract.ArduinoAlgorand.__init__() -> void:
+__init__:
+    // smart_contracts/arduino_algorand/contract.py:5
+    // def __init__(self) -> None:
+    proto 0 0
+    // smart_contracts/arduino_algorand/contract.py:6
+    // self.total = arc4.String("")
+    byte "total"
+    byte "\x00\x00"
+    app_global_put
+    retsub

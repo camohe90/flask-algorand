@@ -1,0 +1,7 @@
+#pragma version 10
+
+smart_contracts.arduino_algorand.contract.ArduinoAlgorand.clear_state_program:
+    // smart_contracts/arduino_algorand/contract.py:4
+    // class ArduinoAlgorand(ARC4Contract):
+    int 1
+    return

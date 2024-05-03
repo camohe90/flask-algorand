@@ -1,0 +1,31 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorand Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Algorand Demo</h1>
+        <label for="blink">Blink:</label>
+        
+        <form action="/write" method="post" onsubmit="clearMessage()">
+          <input type="text" id="name" name="state" placeholder="How many times would you like the LED to blink?" required>    
+          <button type="write" class="btn">Write</button>
+        </form>
+
+        <form action="/read" method="post" onsubmit="clearMessage()">
+          <button type="read" class="btn">Read</button>
+        </form>
+
+        {% if message %}
+        <label id="message">{{ message }}</label>
+        {% endif %}
+        
+    </div>
+</body>
+</html>
