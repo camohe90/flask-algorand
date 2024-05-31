@@ -3,34 +3,35 @@ from algokit_utils.beta.algorand_client import (
     PayParams
 )
 
+from dotenv import load_dotenv
+import os
+import algokit_utils 
+    
 from smart_contracts.artifacts.arduino_algorand.client import ArduinoAlgorandClient
 
-algorand = AlgorandClient.default_local_net()
-dispenser = algorand.account.dispenser()
-creator = algorand.account.random()
-print(dispenser.address)
+load_dotenv()
+PASSPHRASE = os.environ.get("PASSPHRASE")
 
-algorand.send.payment(
-    PayParams(
-        sender = dispenser.address,
-        receiver = creator.address,
-        amount = 10_000_00
-    )
-)
+print("--------------------------------------------")
+print("Processing account...")
+
+algorand = AlgorandClient.test_net()
+account = algokit_utils.get_account_from_mnemonic(PASSPHRASE)
+
 
 app_client = ArduinoAlgorandClient(
     algod_client = algorand.client.algod,
-    sender = creator.address,
-    signer = creator.signer
+    sender = account.address,
+    signer= account.signer
 )
 
 result = app_client.create_bare()
 
 print(result)
 
-state = "ON"
+state = 5
 response = app_client.set(state=state)
 print(f"Called set on {app_client.app_id}")
-print(f"with name={state}, received: {response.return_value}")
+print(f"with name={state}, received: {response.return_value}") 
 
 

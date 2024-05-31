@@ -1,15 +1,14 @@
-from algopy import ARC4Contract, arc4
+from algopy import ARC4Contract, arc4, UInt64
 
 
 class ArduinoAlgorand(ARC4Contract):
-    def __init__(self) -> None:
-        self.total = arc4.String("")
+    total: UInt64
 
     @arc4.abimethod()
-    def set(self, state: arc4.String) -> arc4.String:
+    def set(self, state: UInt64) -> None:
         self.total = state
-        return self.total
+
     
     @arc4.abimethod()
-    def read_total(self) ->arc4.String:
+    def read_total(self) ->UInt64:
         return self.total

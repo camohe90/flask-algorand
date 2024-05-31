@@ -5,12 +5,21 @@ body {
 }
 
 .container {
-  max-width: 500px;
+  max-width: 650px;
   margin: 50px auto;
   padding: 20px;
   background-color: #fff;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.container img {
+  width: 30%; 
+  height: auto; 
+  display: block; 
+  margin-bottom: 20px; 
+  margin: 0 auto; 
+
 }
 
 h1 {
@@ -25,6 +34,8 @@ form {
 
 label {
   margin-bottom: 10px;
+  font-weight: bold;
+  text-align: center; /* Center the text inside labels */
 }
 
 input {
@@ -34,16 +45,55 @@ input {
   border: 1px solid #ccc;
 }
 
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
 .btn {
+  flex: 1;
   padding: 10px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #31D8EE;
   color: #fff;
   cursor: pointer;
   margin: 6px;
 }
 
 .btn:hover {
-  background-color: #0056b3;
+  background-color: #378993;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 13px;
+}
+
+table th {
+  background-color: #31D8EE; /* Change the background color of the header */
+  color: #fff; /* Change the text color of the header */
+  border: 1px solid #dddddd; /* Add border to header cells */
+  text-align: left; /* Align text to the left */
+  padding: 12px;
+}
+
+table td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 12px;
+  max-width: 200px; /* Limit the maximum width of table cells */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Truncate text with an ellipsis (...) if it overflows */
+}
+
+a {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Truncate text with an ellipsis (...) if it overflows */
+  white-space: nowrap; /* Prevent text from wrapping */
+  max-width: 100%; /* Ensure the anchor tag doesn't exceed its container width */
 }
